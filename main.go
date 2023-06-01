@@ -62,7 +62,7 @@ func main() {
 	// 	c.Visit(nextPage)
 	// })
 
-	file, err := os.Create("export.csv")
+	file, err := os.Create("export_1.csv")
 		if err != nil {
 		log.Fatal(err)
 	}
@@ -83,6 +83,11 @@ func main() {
 		writer.Write(row)
 	})
 
+
+	c.OnHTML(".next > a", func(e *colly.HTMLElement) {
+		nextPage := e.Request.AbsoluteURL(e.Attr("href"))
+		c.Visit(nextPage)
+	})
 	c.Visit("https://books.toscrape.com/")
 
 	// c.OnHTML("a[href]", func(e *colly.HTMLElement) {
